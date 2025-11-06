@@ -7,6 +7,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("✅ User CRUD API is running successfully on port 5000!");
+});
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("MongoDB Error:", err));
@@ -70,4 +74,15 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const startTime = new Date().toLocaleString("en-IN", { hour12: true });
+app.listen(PORT, () => {
+  console.log(`\n✅ Server running on port ${PORT}`);
+  console.log(`🕒 Started at: ${startTime}`);
+  console.log(`🌍 Local API Endpoints:`);
+  console.log(`   → GET    http://localhost:${PORT}/`);
+  console.log(`   → GET    http://localhost:${PORT}/users`);
+  console.log(`   → GET    http://localhost:${PORT}/users/:id`);
+  console.log(`   → POST   http://localhost:${PORT}/users`);
+  console.log(`   → PUT    http://localhost:${PORT}/users/:id`);
+  console.log(`   → DELETE http://localhost:${PORT}/users/:id\n`);
+});
